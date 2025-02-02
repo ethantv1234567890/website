@@ -35,6 +35,13 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
+        .announcement {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -76,6 +83,7 @@
 <body>
     <canvas class="background"></canvas>
     <h1>Welcome to Ethan's Network</h1>
+    <div class="announcement" id="announcement">Loading announcement...</div>
     <div class="container">
         <div class="card"><a href="https://jelly.ethans.network" target="_blank">Jelly</a></div>
         <div class="card"><a href="https://weather.ethans.network" target="_blank">Weather</a></div>
@@ -97,6 +105,16 @@
                 color: ['#ffffff'],
                 connectParticles: true
             });
+        
+            // Fetch the announcement from Cloudflare Worker
+            fetch('https://announcementapi.doctorwhofan545.workers.dev/')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('announcement').innerText = data;
+                })
+                .catch(() => {
+                    document.getElementById('announcement').innerText = "No announcements available.";
+                });
         };
     </script>
 </body>
